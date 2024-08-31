@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express=require('express');
 const app=express();
 const mongoose=require('mongoose');
@@ -6,6 +8,7 @@ const methodOverride=require("method-override");
 const ejsMate = require('ejs-mate');
 const ExpressError=require('./Utils/ExpressError');
 const session=require("express-session");
+const MongoStore=require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local")
@@ -22,9 +25,12 @@ const UsersRouter=require('./routes/User');
 const User=require('./Models/User');
 const Room=require('./Models/Rooms');
 const Image=require('./Models/Images');
+const Comment=require('./Models/Comments');
 
 //----------------DataBase connection--------------
 
+    
+// const MONGO_URL=process.env.ATLASDB_URL;
 const MONGO_URL="mongodb://127.0.0.1:27017/MemoryHub";
 
 async function main(){
@@ -50,8 +56,21 @@ app.engine('ejs',ejsMate);
 
 //-------------------Session,flash & Passport Authentication------------------
 
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24*60*60,
+})
+
+store.on("error",()=>{
+    console.log("ERROR IN MONGO SESSION STORE",err);
+});
+
 const sessionOptions={
-    secret:"mySuperSecretCode",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
@@ -89,7 +108,6 @@ app.get('/',(req,res)=>{
 app.use("/Rooms",RoomsRouter);
 app.use("/Rooms/:id",ImagesRouter);
 app.use("/",UsersRouter);
-
 
 //--------------------Error Handling---------------
 

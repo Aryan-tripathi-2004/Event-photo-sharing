@@ -54,14 +54,14 @@
 
     
   <% if(currUser && currUser._id.equals(roomInfo.owner._id)){ %>
-    <h1 class="mb-3 fs-1 my-4">Add Images</h1>
+    <h1 class="mb-3 fs-1 my-4">Add Images and Videos</h1>
 
-    <form action="/Rooms/<%= roomInfo._id %>/AddImages" method="POST" enctype="multipart/form-data" novalidate class="needs-validation">
-        <label for="Image" class="form-label">Choose Image</label>
+    <form action="/Rooms/<%= roomInfo._id %>/AddImages" method="POST" enctype="multipart/form-data" accept="image/*,video/*" novalidate class="needs-validation">
+        <label for="Image" class="form-label">Choose Your Files</label>
         <div class="mb-3">
           <div class="d-flex">
-            <input class="form-control" type="file" name="room[Image]" id="" required>
-            <button type="submit" class="btn btn-success w-25 mx-3">Add Image</button>
+            <input class="form-control" type="file" name="room[Image]" id=""  multiple required>
+            <button type="submit" class="btn btn-success w-25 mx-3">Upload Files</button>
             <div class="invalid-feedback">Please Choose Image First</div>
           </div>
         </div>
@@ -72,37 +72,84 @@
 
 
     <div class="Images">
-        <h1 class="fs-3 mt-5">All Images</h1>
-        <div class="showImage mt-6 row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-3">
 
-        <% for(let image of roomInfo.Images){%>
-            <div class="card col mx-2 mt-3" style="width: 18rem;">
-                <img src="/uploads/Images/<%= image.FileName %>" class="card-img-top mt-2" alt="..." style="height: 15rem !important;">
-                <div class="card-body">
-                  <div style="overflow: hidden; height: 2.5rem !important;">
-                    <h5 class="card-title mb-3"><%= image.FileName %></h5>
+        <form id="divForm">
+          <div class="radio-inputs col-10 mx-auto mt-5">
+            <label class="radio"><input type="radio" name="div" value="div1" checked> <span class="name">Images</span></label>
+            <label class="radio"><input type="radio" name="div" value="div2"> <span class="name">Videos</span></label>
+            <label class="radio"><input type="radio" name="div" value="div3"> <span class="name">Your Pictures</span></label>
+          </div>
+        </form>
+      
+      <section>
+        <div id="div1">
+          <div class="showImage row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-4">
+
+            <% for(let image of roomInfo.Images){%>
+                <div class="card col mx-2 mt-3" style="width: 24rem;">
+                    <img src="/uploads/Images/<%= image.FileName %>" class="card-img-top mt-2" alt="..." style="height: 15rem !important;">
+                    <div class="card-body">
+                      <div style="overflow: hidden; height: 2.5rem !important;">
+                        <h5 class="card-title mb-3"><%= image.FileName %></h5> 
+                      </div>
+                      <div class="d-flex mt-4">
+                    <a href="/Rooms/<%= roomInfo._id %>/showImage/<%= image._id %>">
+                      <button class="btn btn-dark me-4">showImage</button>
+                    </a>
+    
+                    <% if(currUser && currUser._id.equals(roomInfo.owner._id)){ %>
+                      <form method="POST" class="mb-1 ms-4" action="/Rooms/<%= roomInfo._id %>/AddImages/<%= image._id %>">
+                        <button class="btn btn-danger">Delete</button>
+                      </form>
+                    <%}%>
+                    </div>
+                    </div>
                   </div>
-                  <div class="d-flex mt-4">
-                <a href="/Rooms/<%= roomInfo._id %>/showImage/<%= image._id %>">
-                  <button class="btn btn-dark me-4">showImage</button>
-                </a>
+    
+            <%}%>
+          </div>
+        </div>
+      </section>
 
-                <% if(currUser && currUser._id.equals(roomInfo.owner._id)){ %>
-                  <form method="POST" class="mb-1 ms-4" action="/Rooms/<%= roomInfo._id %>/AddImages/<%= image._id %>">
-                    <button class="btn btn-danger">Delete</button>
-                  </form>
-                <%}%>
-                </div>
-                </div>
-              </div>
+      <section>
+        <div id="div2" class="Hidden">
+          <div class="showImage row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mx-4">
 
-        <%}%>
+            <% for(let video of roomInfo.Videos){%>
+                <div class="card col mx-2 mt-3" style="width: 24rem;">
+                    <video src="/uploads/Images/<%= video.FileName %>"class="card-img-top mt-2" style="height: 15rem !important;" autoplay muted></video>
+                    <div class="card-body">
+                      <div style="overflow: hidden; height: 2.5rem !important;">
+                        <h5 class="card-title mb-3"><%= video.FileName %></h5> 
+                      </div>
+                      <div class="d-flex mt-4">
+                    <a href="/Rooms/<%= roomInfo._id %>/showImage/<%= video._id %>">
+                      <button class="btn btn-dark me-4">showImage</button>
+                    </a>
+    
+                    <% if(currUser && currUser._id.equals(roomInfo.owner._id)){ %>
+                      <form method="POST" class="mb-1 ms-4" action="/Rooms/<%= roomInfo._id %>/AddImages/<%= video._id %>">
+                        <button class="btn btn-danger">Delete</button>
+                      </form>
+                    <%}%>
+                    </div>
+                    </div>
+                  </div>
+    
+            <%}%>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div id="div3" class="Hidden" style="height: 500px;">
 
         </div>
-
+      </section>
     </div>
   </div>
     <script src="/JS/GenerateQr.js"></script>
     <script src="/JS/ShareEvent.js"></script>
     <script src="/JS/CopyLink.js"></script>
+    <script src="/JS/UserProfile.js"></script>
 </body>

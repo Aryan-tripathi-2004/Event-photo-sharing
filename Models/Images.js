@@ -1,17 +1,30 @@
-const mongoose=require('mongoose');
+const mongoose = require("mongoose");
+const Comment = require("./Comments");
 
-const ImageSchema=new mongoose.Schema({
-    FileName:{
-        type:String,
-        required:true,
-        trim:true,
+const ImageSchema = new mongoose.Schema({
+  FileName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  FilePath: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  Comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comments",
     },
-    FilePath:{
-        type:String,
-        required:true,
-        trim:true,
-    }
+  ],
 });
 
-const Image = mongoose.model('Images',ImageSchema);
+ImageSchema.post('findOneAndDelete',async(Image)=>{
+  if(Image){
+  await Comment.deleteMany({_id:{$in: Image.Comments}});
+  }
+});
+
+const Image = mongoose.model("Images", ImageSchema);
 module.exports = Image;

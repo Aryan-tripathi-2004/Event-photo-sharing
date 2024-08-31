@@ -9,10 +9,8 @@ module.exports.RoomSchema=Joi.object({
 })
 
 module.exports.ImageSchema=Joi.object({
-    File:Joi.object({
-        FileName:Joi.string().required(),
-        FilePath:Joi.string().required(),
-    }).required()
+    FileName:Joi.string().required(),
+    FilePath:Joi.string().required(),  
 })
 
 module.exports.UserSchema=Joi.object({

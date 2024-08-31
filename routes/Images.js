@@ -21,13 +21,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage});
 
 //add Images
-router.post('/AddImages',isLoggedIn,isOwner,upload.single('room[Image]'),wrapAsync(ImageController.AddImage));
+router.post('/AddImages',isLoggedIn,isOwner,upload.array('room[Image]'),ImageController.uploadMedia);
 
 //delete image
-router.post('/AddImages/:ImageId',isLoggedIn,isOwner,wrapAsync(ImageController.DeleteImage));
+router.post('/AddImages/:MediaId',isLoggedIn,isOwner,wrapAsync(ImageController.DeleteImage));
 
 //show image
-router.get('/showImage/:ImageId',wrapAsync(ImageController.ShowImage));
+router.get('/showImage/:MediaId',wrapAsync(ImageController.ShowImage));
+
+//Add New Comment
+router.post('/AddImages/:MediaId/Comments',isLoggedIn,wrapAsync(ImageController.AddComment));
+
+//Delete Comment
+router.post('/showImage/:MediaId/Comment/:CommentId',isLoggedIn,wrapAsync(ImageController.DeleteComment));
 
 
 module.exports=router;

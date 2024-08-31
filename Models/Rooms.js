@@ -22,6 +22,10 @@ const RoomSchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'Images'
     }],
+    Videos:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Videos'
+    }],
     owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'

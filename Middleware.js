@@ -49,7 +49,7 @@ module.exports.validateImageSchema=(req,res,next)=>{
 }
 
 module.exports.validateUserSchema=(req,res,next)=>{
-    let { error }=ImageSchema.validate(req.body);
+    let { error }=UserSchema.validate(req.body);
     if(error){
         let errMsg=error.details.map((el)=>el.message).join(",");
         throw new ExpressError(400,errMsg);

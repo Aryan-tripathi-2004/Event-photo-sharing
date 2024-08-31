@@ -128,47 +128,7 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
     font-weight: 600;
   }
 
-  /* Radio buttons */
-
-  .radio-inputs {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 0.5rem;
-    background-color: #EEE;
-    box-sizing: border-box;
-    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-    padding: 0.25rem;
-    width: 95%;
-    font-size: 14px;
-  }
-  
-  .radio-inputs .radio {
-    flex: 1 1 auto;
-    text-align: center;
-  }
-  
-  .radio-inputs .radio input {
-    display: none;
-  }
-  
-  .radio-inputs .radio .name {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.5rem;
-    border: none;
-    padding: .5rem 0;
-    color: rgba(51, 65, 85, 1);
-    transition: all .15s ease-in-out;
-  }
-  
-  .radio-inputs .radio input:checked + .name {
-    background-color: #fff;
-    font-weight: 600;
-  }
-  
+ 
   /* Gallery Section */
   
   .gallery {
@@ -204,9 +164,6 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
     object-fit: cover;
   }
 
-  .Hidden{
-    display: none;
-  }
   
   /* Media Query */
   

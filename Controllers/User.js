@@ -1,6 +1,7 @@
 const User=require("../Models/User");
 const Room = require('../Models/Rooms');
 const Image=require('../Models/Images');
+const Video=require('../Models/Videos');
 const {validateUserSchema}= require('../Middleware');
 
 module.exports.RenderLoginForm = (req,res)=>{
@@ -37,15 +38,16 @@ module.exports.UserLogOut = (req,res)=>{
         if(err){
             return next(err);
         }
-        req.flash("success","you are logged out!");
+        req.flash("success","you are logged out!"); 
         res.redirect("/Rooms");
     })
 };
 
 module.exports.UserProfile = async(req,res)=>{
-    const Rooms= await Room.find({});
+    const Rooms= await Room.find({}).populate("Images").populate("Videos");
     const Images= await Image.find({}); 
-    res.render("Users/UserProfile",{Rooms,Images});
+    const Videos= await Video.find({});
+    res.render("Users/UserProfile",{Rooms,Images,Videos});
 }
 
 module.exports.UserProfileEdit = async(req,res)=>{
@@ -78,4 +80,10 @@ module.exports.AllImages = async(req,res)=>{
     const Rooms= await Room.find({});
     const Images= await Image.find({});
     res.render("AllImages",{Rooms,Images});
+}
+
+module.exports.AllVideos = async(req,res)=>{
+    const Rooms= await Room.find({});
+    const Videos= await Video.find({});
+    res.render("AllVideos",{Rooms,Videos});
 }

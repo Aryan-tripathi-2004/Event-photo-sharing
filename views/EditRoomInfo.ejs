@@ -1,6 +1,6 @@
 <% layout("./layouts/boilerplate") %>
 
-<div class="main col-8 mx-auto p-2 mb-5 mt-5">
+<div class="main col-8 mx-auto p-2 mb-5 mt-2">
     <h1 class="mb-6 mt-3 fs-1">Edit Event Details</h1>
 
     <form method="POST" action="/Rooms/<%= roomInfo._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
@@ -14,6 +14,11 @@
         <label for="Description" class="form-label">Description</label>
         <textarea class="form-control" name="room[desc]" placeholder="Enter Room description" required ><%=roomInfo.desc %></textarea>
         <div class="invalid-feedback">Please Enter Event Description</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="MainImage" class="form-label">Event MainImage</label>
+            <img src="/uploads/EventProfilePic/<%= roomInfo.MainImage %>" alt="img" style="height: 100px; width: 200px;">
         </div>
 
         <div class="mb-3">

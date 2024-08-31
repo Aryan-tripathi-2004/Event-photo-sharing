@@ -12,7 +12,7 @@ module.exports.AddEventForm = (req,res)=>{
 
 module.exports.Event = async(req,res)=>{
     let{id}=req.params;
-    const roomInfo=await Room.findById(id).populate("Images").populate("owner");
+    const roomInfo=await Room.findById(id).populate("Images").populate("Videos").populate("owner");
     if(!roomInfo){
         req.flash("error","Event you requeted for does not exist!"); 
         res.redirect("/Rooms");
